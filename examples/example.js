@@ -84,7 +84,8 @@ p.route(new DynamicContentRoute({
 				selector: "#Content .Record", 
 				template: "record-template",
 				bindings: {
-					
+					".Value": "value",
+					".ID": "id"
 				}
 			});
 			

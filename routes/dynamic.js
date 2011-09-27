@@ -40,19 +40,23 @@ DynamicContentRoute.prototype.execute = function(env) {
 		case "application/xhtml+xml":
 		case "text/html":
 			
-			var mappings = route.map.apply(route, env.herp);
+			var mappings = route.map.apply(route, env.parameters);
 			
 			
 			var engine = env.templateEngine;
 			
-			var bindings = { }, data = { };
+			var bindings = { }, templateData = { };
 			var remaining = mappings.length;
 			mappings.forEach(function(properties, index) {
+				
+	
+				
 				engine.template(properties.template, properties.bindings, data, function(result) {
+					console.log(result.toString())
 					bindings[properties.selector] = index;
-					data[index] = result.getDocumentElement();
+					templateData[index] = result.getDocumentElement();
 					if (--remaining === 0) {
-						engine.execute(env.document, bindings, data, function(result) {
+						engine.execute(env.document, bindings, templateData, function(result) {
 							
 							env.response.write(env.document.toString(), "utf8");
 							env.response.end();
@@ -67,7 +71,7 @@ DynamicContentRoute.prototype.execute = function(env) {
 	}
 	
 	
-	var arguments = env.herp.slice();
+	var arguments = env.parameters.slice();
 	arguments.push(process);
 	var data = this.api.apply(this, arguments);
 	if (typeof data !== "undefined")
