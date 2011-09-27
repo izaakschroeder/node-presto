@@ -28,7 +28,7 @@ function Presto(opts) {
 				request: request,
 				response: response,
 				cookies: new Cookies(request, response),
-				herp: parameters,
+				parameters: parameters,
 				url: url,
 				document: document,
 				templateEngine: presto.templateEngine
